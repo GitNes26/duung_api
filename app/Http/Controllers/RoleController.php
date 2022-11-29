@@ -3,18 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\ObjectResponse;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar lista de todos los roles activos.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            // $lista = DB::select('SELECT * FROM roles where role_active = 1');
+            $list = Role::where('role_active', true) #where('role_active','=',1)
+            ->select('roles.role_id','roles.role_name')
+            ->orderBy('roles.role_name', 'ASC')
+            ->get();
+
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | lista roles.');
+            data_set($response,'data',$list);
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
     }
 
     /**
@@ -22,64 +38,122 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create(Request $request)
+    // {
+        
+    // }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear un nuevo rol.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            $new_role = Role::create([
+                'role_name' => $request->role_name,
+            ]);
+            
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | rol registrado.');
+            data_set($response,'alert_text','Rol registrado');
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar un rol especifico.
      *
      * @param  \App\Models\Role  $role
+     * @param  \Illuminate\Http\Request  $request
+     * @param   int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show(Request $request, int $id)
     {
-        //
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            $role = Role::where('role_id', $id)
+            ->select('roles.role_id','roles.role_name')
+            ->get();
+
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | rol encontrado.');
+            data_set($response,'data',$role);
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Role  $role
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
-    {
-        //
-    }
+    // public function edit(Request $request)
+    // {
+    //     //
+    // }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar un rol especifico.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request)
     {
-        //
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            $role = Role::where('role_id', $request->role_id)
+            ->update([
+                'role_name' => $request->role_name,
+            ]);
+
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | rol actualizado.');
+            data_set($response,'alert_text','Rol actualizado');
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar (cambiar estado activo=false) un rol especidifco.
      *
      * @param  \App\Models\Role  $role
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy(int $id)
     {
-        //
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            Role::where('role_id', $id)
+            ->update([
+                'role_active' => false,
+                'deleted_at' => date('Y-m-d H:i:s'),
+            ]);
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | rol eliminado.');
+            data_set($response,'alert_text','Rol eliminado');
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
     }
 }
