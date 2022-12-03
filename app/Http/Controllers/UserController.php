@@ -63,6 +63,32 @@ class UserController extends Controller
         return response()->json($response,$response["status_code"]);
     }
 
+    /**
+     * Reegistrarse como jugador.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function signup(Request $request)
+    {
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            $new_user = User::create([
+                'email' => $request->email,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'role_id' => 2,
+            ]);
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | jugador registrado.');
+            data_set($response,'alert_text','¡Felicidades! ya eres parte de la familia');
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+    }
+
 
     /**
      * Mostrar lista de todos los usuarios activos del

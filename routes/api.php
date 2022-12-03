@@ -23,6 +23,7 @@ use App\Http\Controllers\RoleController;
 // });
 
 Route::post('/login', [UserController::class,'login']);
+Route::post('/signup', [UserController::class,'signup']);
 
 Route::middleware('auth:sanctum')->controller(UserController::class)->group(function () {
     Route::get('/users','index');           //mostrar lista
