@@ -19,7 +19,7 @@ return new class extends Migration
             // $table->integer('item_correct_answer');
             $table->foreignId('item_tq_id')->constrained('types_question','tq_id');
             $table->text('item_question');
-            $table->boolean('item_time');
+            $table->integer('item_time');
             $table->boolean('item_used')->default(false);
             $table->timestamps();
         });

@@ -16,6 +16,11 @@ class SubjetSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('subjets')->insert([ 
+            'subjet_name' => 'Español',
+        ]);
+        DB::table('subjets')->insert([ 
+            'subjet_name' => 'Matematicas',
+        ]);
     }
 }

@@ -16,6 +16,11 @@ class TypesQuestionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('types_question')->insert([ 
+            'tq_name' => 'Opcion multiple (textos)',
+        ]);
+        DB::table('types_question')->insert([ 
+            'tq_name' => 'Opcion multiple (imagenes)',
+        ]);
     }
 }

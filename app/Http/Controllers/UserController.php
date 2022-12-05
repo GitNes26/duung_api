@@ -73,6 +73,9 @@ class UserController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try {
+
+            // if (!$this->validateAvailability('username',$request->username)->status) return;
+            
             $new_user = User::create([
                 'email' => $request->email,
                 'username' => $request->username,
@@ -248,6 +251,23 @@ class UserController extends Controller
             $response = ObjectResponse::CorrectResponse();
             data_set($response,'message','peticion satisfactoria | usuario eliminado.');
             data_set($response,'alert_text','Usuario eliminado');
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+    }
+
+
+
+    private function validateAvailability(string $prop, int $value, string $message_error)
+    {
+        $response = ObjectResponse::DefaultResponse();
+        data_set($response,'alert_text',$message_error);
+        try {
+            $exist = User::where($prop, $value)->count();
+
+            if ($exist > 0) $response = ObjectResponse::CorrectResponse();
 
         } catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());

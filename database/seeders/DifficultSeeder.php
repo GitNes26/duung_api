@@ -16,6 +16,17 @@ class DifficultSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('difficults')->insert([ 
+            'difficult_name' => 'Bebe chillon',
+            'difficult_score' => 1,
+        ]);
+        DB::table('difficults')->insert([ 
+            'difficult_name' => 'Medias tintas',
+            'difficult_score' => 5,
+        ]);
+        DB::table('difficults')->insert([ 
+            'difficult_name' => 'Super Fortachon',
+            'difficult_score' => 10,
+        ]);
     }
 }

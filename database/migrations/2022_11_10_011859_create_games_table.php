@@ -19,11 +19,11 @@ return new class extends Migration
             $table->foreignId('game_subjet_id')->constrained('subjets','subjet_id');
             $table->foreignId('game_difficult_id')->constrained('difficults','difficult_id');
             $table->string('game_title');
-            $table->string('game_description');
-            $table->integer('game_score');
-            $table->integer('game_rate');
+            $table->string('game_description')->nullable();
+            $table->integer('game_score')->default(0);
+            $table->integer('game_rate')->default(0);
             $table->integer('game_quantity_items');
-            $table->integer('game_time_item');
+            $table->integer('game_time_item')->nullable();
             $table->boolean('game_complete')->default(false);
             $table->timestamps();
         });
