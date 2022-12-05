@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             GameSeeder::class,
             TypesQuestionSeeder::class,
             ItemSeeder::class,
-            // AnswerSeeder::class,
+            AnswerSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 
