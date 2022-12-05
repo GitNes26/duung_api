@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ObjectResponse;
 use App\Models\Difficult;
 use Illuminate\Http\Request;
 
 class DifficultController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar lista de todas las difficultades.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            // $lista = DB::select('SELECT * FROM users where active = 1');
+            $list = Difficult::select('difficult_id','difficult_name', 'difficult_score')
+            ->get();
+            
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | lista de dificultades.');
+            data_set($response,'data',$list);
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
     }
 
     /**

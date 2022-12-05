@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ObjectResponse;
 use App\Models\Subjet;
 use Illuminate\Http\Request;
 
 class SubjetController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar lista de todas las maetrias.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            // $lista = DB::select('SELECT * FROM users where active = 1');
+            $list = Subjet::select('subjet_id','subjet_name')
+            ->get();
+            
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | lista de materias.');
+            data_set($response,'data',$list);
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
     }
 
     /**
