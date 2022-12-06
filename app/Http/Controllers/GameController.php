@@ -19,11 +19,10 @@ class GameController extends Controller
         try {
             $list = Game::whereNotNull('games.game_id')
             ->join('users', 'games.game_user_id', '=', 'users.id')//USERS
-            ->join('subjets', 'games.game_subjet_id', '=', 'subjets.subjet_id')//SUBJETS
-            ->join('difficults', 'games.game_difficult_id', '=', 'difficults.difficult_id')//DIFFICULTS
+            ->join('rounds', 'games.game_round_id', '=', 'rounds.round_id')//ROUNDS
             ->select('games.game_id','users.name', 'subjets.subjet_name',
-            'difficults.difficult_name', 'games.game_title', 'games.game_description', 'games.game_score',
-            'games.game_score', 'games.game_rate', 'games.game_quantity_items', 'games.game_time_item', 'games.game_complete')
+            'rounds.round_name', 'games.game_title', 'games.game_description', 'games.game_score',
+            'games.game_score', 'games.game_rate', 'games.game_quantity_items_correct', 'games.game_time_item', 'games.game_complete')
             ->orderBy('games.game_title', 'asc')->get();
             $response = ObjectResponse::CorrectResponse();
             data_set($response, 'message', 'Peticion satisfactoria. Lista de partidas');
@@ -57,13 +56,13 @@ class GameController extends Controller
         try {
             $new_game = Game::create([
                 'game_user_id' => $request->game_user_id,
-                'game_subjet_id' => $request->game_subjet_id,
-                'game_difficult_id' => $request->game_difficult_id,
+                // 'game_subjet_id' => $request->game_subjet_id,
+                'game_round_id' => $request->game_round_id,
                 'game_title' => $request->game_title,
                 'game_description' => $request->game_description,
                 'game_score' => $request->game_score,
                 'game_rate' => $request->game_rate,
-                'game_quantity_items' => $request->game_quantity_items,
+                'game_quantity_items_correct' => $request->game_quantity_items_correct,
                 'game_time_item' => $request->game_time_item,
                 'game_complete' => $request->game_complete,
             ]);
@@ -89,11 +88,11 @@ class GameController extends Controller
         try{
             $game = Game::where('game_id', $id)
             ->join('users', 'games.game_user_id', '=', 'users.id')//USERS
-            ->join('subjets', 'games.game_subjet_id', '=', 'subjets.subjet_id')//SUBJETS
-            ->join('difficults', 'games.game_difficult_id', '=', 'difficults.difficult_id')//DIFFICULTS
+            ->join('rounds', 'games.game_round_id', '=', 'rounds.round_id')//ROUNDS
+            ->join('subjets', 'rounds.round_subjet_id', '=', 'subjets.subjet_id')//SUBJETS
             ->select('games.game_id','users.name', 'subjets.subjet_name',
-            'difficults.difficult_name', 'games.game_title', 'games.game_description', 'games.game_score',
-            'games.game_score', 'games.game_rate', 'games.game_quantity_items', 'games.game_time_item', 'games.game_complete')
+            'rounds.round_name', 'games.game_title', 'games.game_description', 'games.game_score',
+            'games.game_score', 'games.game_rate', 'games.game_quantity_items_correct', 'games.game_time_item', 'games.game_complete')
             ->get();
             
             $response = ObjectResponse::CorrectResponse();
@@ -131,13 +130,13 @@ class GameController extends Controller
             $game = Game::where('games.game_id', $request->game_id)
             ->update([
                 'game_user_id' => $request->game_user_id,
-                'game_subjet_id' => $request->game_subjet_id,
-                'game_difficult_id' => $request->game_difficult_id,
+                // // 'game_subjet_id' => $request->game_subjet_id,
+                'game_round_id' => $request->game_round_id,
                 'game_title' => $request->game_title,
                 'game_description' => $request->game_description,
                 'game_score' => $request->game_score,
                 'game_rate' => $request->game_rate,
-                'game_quantity_items' => $request->game_quantity_items,
+                'game_quantity_items_correct' => $request->game_quantity_items_correct,
                 'game_time_item' => $request->game_time_item,
                 'game_complete' => $request->game_complete,
             ]);

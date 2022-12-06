@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
+use App\Models\Round;
 use App\Models\ObjectResponse;
 use Illuminate\Http\Request;
 
-class ItemController extends Controller
+class RoundController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,14 +17,14 @@ class ItemController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try { 
-            $list = Item::whereNotNull('item_id')
-            ->join('games', 'items.item_round_id', '=', 'games.game_id')
-            ->join('types_question', 'items.item_tq_id', '=', 'types_question.tq_id')
-            ->select('types_question.tq_id','games.game_title', 'types_question.tq_name', 'items.item_question',
-            'items.item_time', 'items.item_used')
-            ->orderBy('items.item_question', 'asc')->get();
+            $list = Round::whereNotNull('round_id')
+            ->join('subjets', 'rounds.round_subjet_id', '=', 'subjets.subjet_id')
+            ->join('difficults', 'rounds.round_difficult_id', '=', 'difficult_id')
+            ->select('round_id','subjets.subjet_name', 'difficult_name', 'rounds.round_quantity_items',
+            'rounds.round_quantity_items', 'rounds.round_correct_min')
+            ->orderBy('rounds.round_id', 'asc')->get();
             $response = ObjectResponse::CorrectResponse();
-            data_set($response, 'message', 'Peticion satisfactoria. Lista de items:');
+            data_set($response, 'message', 'Peticion satisfactoria. Lista de rounds:');
             data_set($response, 'data', $list);
         }
         catch (\Exception $ex) {
@@ -53,16 +53,16 @@ class ItemController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try {
-            $item = Item::create([
-                'item_tq_id' => $request->item_tq_id,
-                'item_question' => $request->item_question,
-                'item_time' => $request->item_time,
-                'item_used' => $request->item_used,
-                'item_round_id'=> $request->item_round_id
+            $round = Round::create([
+                'round_name' => $request->round_name,
+                'round_subjet_id'=> $request->round_subjet_id,
+                'round_difficult_id' => $request->round_difficult_id,
+                'round_quantity_items' => $request->round_quantity_items,
+                'round_correct_min' => $request->round_correct_min,
             ]);
             $response = ObjectResponse::CorrectResponse();
-            data_set($response,'message','peticion satisfactoria | item registrado.');
-            data_set($response,'alert_text','item registrado');
+            data_set($response,'message','peticion satisfactoria | round registrado.');
+            data_set($response,'alert_text','round registrado');
         }
         catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
@@ -73,23 +73,23 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Item  $item
+     * @param  \App\Models\Round  $round
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item, int $id)
+    public function show(Round $round, int $id)
     {
         $response = ObjectResponse::DefaultResponse();
         try{
-            $item = Item::where('item_id', $id)
-            ->join('games', 'items.item_round_id', '=', 'games.game_id')
-            ->join('types_question', 'items.item_tq_id', '=', 'types_question.tq_id')
-            ->select('types_question.tq_id','games.game_title', 'types_question.tq_name', 'items.item_question',
-            'items.item_time', 'items.item_used')
+            $round = Round::where('round_id', $id)
+            ->join('subjets', 'rounds.round_subjet_id', '=', 'subjets.subjet_id')
+            ->join('difficults', 'rounds.round_difficult_id', '=', 'difficult_id')
+            ->select('round_id', 'rounds.round_name', 'subjets.subjet_name', 'difficult_name', 'rounds.round_quantity_items',
+            'rounds.round_correct_min')
             ->get();
             
             $response = ObjectResponse::CorrectResponse();
-            data_set($response,'message','peticion satisfactoria | item encontrado.');
-            data_set($response,'data',$item);
+            data_set($response,'message','peticion satisfactoria | round encontrado.');
+            data_set($response,'data',$round);
         }
         catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
@@ -100,10 +100,10 @@ class ItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Item  $item
+     * @param  \App\Models\Round  $round
      * @return \Illuminate\Http\Response
      */
-    public function edit(Item $item)
+    public function edit(Round $round)
     {
         //
     }
@@ -112,25 +112,25 @@ class ItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Item  $item
+     * @param  \App\Models\Round  $round
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Item $item)
+    public function update(Request $request, Round $round)
     {
         $response = ObjectResponse::DefaultResponse();
         try{
-            $item = Item::where('items.item_id', $request->item_id)
+            $round = Round::where('rounds.round_id', $request->round_id)
             ->update([
-                'item_round_id' => $request->item_round_id,
-                'item_tq_id' => $request->item_tq_id,
-                'item_question' => $request->item_question,
-                'item_time' => $request->item_time,
-                'item_used' => $request->item_used,
+                'round_name' => $request->round_name,
+                'round_subjet_id' => $request->round_subjet_id,
+                'round_difficult_id' => $request->round_difficult_id,
+                'round_quantity_items' => $request->round_quantity_items,
+                'round_correct_min' => $request->round_correct_min,
             ]);
 
             $response = ObjectResponse::CorrectResponse();
-            data_set($response,'message','peticion satisfactoria | Item actualizado.');
-            data_set($response,'alert_text','Item actualizada');
+            data_set($response,'message','peticion satisfactoria | Round actualizado.');
+            data_set($response,'alert_text','Round actualizada');
         }
         catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
@@ -141,18 +141,18 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Item  $item
+     * @param  \App\Models\Round  $round
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item, int $id)
+    public function destroy(Round $round, int $id)
     {
         $response = ObjectResponse::DefaultResponse();
         try{
-            Item::where('item_id', $id)
+            Round::where('round_id', $id)
             ->delete();
             $response = ObjectResponse::CorrectResponse();
-            data_set($response, 'message', 'petición satisfactoria. Item eliminado.');
-            data_set($response, 'alert_text', 'Item eliminado.');
+            data_set($response, 'message', 'petición satisfactoria. Round eliminado.');
+            data_set($response, 'alert_text', 'Round eliminado.');
         }
         catch(\Exception $ex){
             $response = ObjectResponse::CatchResponse($ex->getMessage());

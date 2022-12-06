@@ -21,10 +21,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DifficultSeeder::class,
             SubjetSeeder::class,
-            GameSeeder::class,
+            RoundSeeder::class,
             TypesQuestionSeeder::class,
             ItemSeeder::class,
             AnswerSeeder::class,
+            // GameSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 

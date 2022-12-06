@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('item_id');
-            $table->foreignId('item_game_id')->constrained('games','game_id');
-            // $table->integer('item_correct_answer');
+            // $table->foreignId('item_game_id')->constrained('games','game_id');
+            $table->foreignId('item_round_id')->constrained('rounds','round_id');
             $table->foreignId('item_tq_id')->constrained('types_question','tq_id');
             $table->text('item_question');
             $table->integer('item_time');

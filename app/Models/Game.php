@@ -16,13 +16,14 @@ class Game extends Model
     protected $fillable = [
         'game_id',
         'game_user_id',
-        'game_subjet_id',
-        'game_difficult_id',
+        // 'game_subjet_id',
+        // 'game_difficult_id',
+        'game_round_id',
         'game_title',
         'game_description',
         'game_score',
         'game_rate',
-        'game_quantity_items',
+        'game_quantity_items_correct',
         'game_time_item',
         'game_complete'
     ];
@@ -42,17 +43,17 @@ class Game extends Model
     /**
      * Obtener el empleado relacionado a la nota.
      */
-    public function subjet()
+    public function round()
     {
-        return $this->hasMany(Subjet::class,'game_subjet_id','subjet_id'); //primero se declara FK y despues la PK
+        return $this->belongsTo(Round::class,'game_round_id','round_id'); //primero se declara FK y despues la PK
     }
-    /**
-     * Obtener la mesa relacionado a la nota.
-     */
-    public function difficult()
-    {
-        return $this->hasMany(Difficult::class,'game_difficult_id','difficult_id'); //primero se declara FK y despues la PK
-    }
+    // /**
+    //  * Obtener la mesa relacionado a la nota.
+    //  */
+    // public function difficult()
+    // {
+    //     return $this->hasMany(Difficult::class,'game_difficult_id','difficult_id'); //primero se declara FK y despues la PK
+    // }
 
     /**
      * Obtener usuario asociado con la partida.

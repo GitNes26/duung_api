@@ -16,7 +16,7 @@ class Item extends Model
      */
     protected $fillable = [
         'item_id',
-        'item_game_id',
+        'item_round_id',
         'item_tq_id',
         'item_question',
         'item_time',
@@ -36,11 +36,11 @@ class Item extends Model
     protected $primaryKey = 'item_id';
 
     /**
-     * Obtener partida asociado con el item.
+     * Obtener la ronda asociado con el item.
      */
-    public function game()
+    public function round()
     {   //primero se declara FK y despues la PK del modelo asociado
-        return $this->belongsTo(Game::class,'item_game_id','game_id');
+        return $this->belongsTo(Round::class,'item_round_id','round_id');
     }
 
     /**
