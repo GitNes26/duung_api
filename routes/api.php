@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubjetController;
 use App\Http\Controllers\DifficultController;
@@ -10,6 +11,10 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\TypesQuestionController;
 use App\Http\Controllers\UserController;
+
+use App\Http\Controllers;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +32,8 @@ use App\Http\Controllers\UserController;
 // });
 
 Route::post('/login',[UserController::class,'login']);
+Route::post('/login', [UserController::class,'login']);
+Route::post('/signup', [UserController::class,'signup']);
 
 Route::middleware('auth:sanctum')->controller(UserController::class)->group(function () {
     Route::get('/users','index');           //mostrar lista
@@ -46,13 +53,6 @@ Route::middleware('auth:sanctum')->controller(RoleController::class)->group(func
     Route::delete('/roles/{id}','destroy');
 });
 
-Route::middleware('auth:sanctum')->controller(SubjetController::class)->group(function () {
-    Route::get('/subjet','index');
-    Route::get('/subjet/{id}','show');
-    Route::post('/subjet','store');
-    Route::put('/subjet','update');
-    Route::delete('/subjet/{id}','destroy');
-});
 
 Route::middleware('auth:sanctum')->controller(DifficultController::class)->group(function () {
     Route::get('/difficult','index');
@@ -92,4 +92,13 @@ Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->g
     Route::post('/type_q','store');
     Route::put('/type_q','update');
     Route::delete('/type_q/{id}','destroy');
+});
+
+
+Route::middleware('auth:sanctum')->controller(SubjetController::class)->group(function () {
+    Route::get('/subjets','index');
+    Route::get('/subjets/{id}','show');
+    Route::post('/subjets','store');
+    Route::put('/subjets','update');
+    Route::delete('/subjets/{id}','destroy');
 });

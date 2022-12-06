@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ObjectResponse;
 use App\Models\Subjet;
 use App\Models\ObjectResponse;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 class SubjetController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar lista de todas las maetrias.
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,6 +18,7 @@ class SubjetController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try {
+<<<<<<< HEAD
             $list = Subjet::whereNotNull('subjet_id')
             ->select('subjets.subjet_name',)
             ->orderBy('subjets.subjet_name', 'asc')->get();
@@ -28,6 +30,20 @@ class SubjetController extends Controller
             $response = ObjectResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response, $response["status_code"]);
+=======
+            // $lista = DB::select('SELECT * FROM users where active = 1');
+            $list = Subjet::select('subjet_id','subjet_name')
+            ->get();
+            
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | lista de materias.');
+            data_set($response,'data',$list);
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+>>>>>>> 39fa9161d607c93e306e179b51eb59627431b40d
     }
 
     /**

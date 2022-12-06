@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ObjectResponse;
 use App\Models\Difficult;
 use App\Models\ObjectResponse;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ class DifficultController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     * Mostrar lista de todas las difficultades.
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,6 +19,7 @@ class DifficultController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try {
+<<<<<<< HEAD
             $list = Difficult::whereNotNull('difficult_id')
             ->select('difficults.difficult_name', 'difficults.difficult_score')
             ->orderBy('difficults.difficult_name', 'asc')->get();
@@ -30,6 +32,21 @@ class DifficultController extends Controller
         }
         return response()->json($response, $response["status_code"]);
     }  
+=======
+            // $lista = DB::select('SELECT * FROM users where active = 1');
+            $list = Difficult::select('difficult_id','difficult_name', 'difficult_score')
+            ->get();
+            
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | lista de dificultades.');
+            data_set($response,'data',$list);
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+    }
+>>>>>>> 39fa9161d607c93e306e179b51eb59627431b40d
 
     /**
      * Show the form for creating a new resource.

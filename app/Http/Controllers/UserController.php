@@ -63,6 +63,35 @@ class UserController extends Controller
         return response()->json($response,$response["status_code"]);
     }
 
+    /**
+     * Reegistrarse como jugador.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function signup(Request $request)
+    {
+        $response = ObjectResponse::DefaultResponse();
+        try {
+
+            // if (!$this->validateAvailability('username',$request->username)->status) return;
+            
+            $new_user = User::create([
+                'email' => $request->email,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'role_id' => 2,
+            ]);
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | jugador registrado.');
+            data_set($response,'alert_text','¡Felicidades! ya eres parte de la familia');
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+    }
+
 
     /**
      * Mostrar lista de todos los usuarios activos del
@@ -222,6 +251,23 @@ class UserController extends Controller
             $response = ObjectResponse::CorrectResponse();
             data_set($response,'message','peticion satisfactoria | usuario eliminado.');
             data_set($response,'alert_text','Usuario eliminado');
+
+        } catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+    }
+
+
+
+    private function validateAvailability(string $prop, int $value, string $message_error)
+    {
+        $response = ObjectResponse::DefaultResponse();
+        data_set($response,'alert_text',$message_error);
+        try {
+            $exist = User::where($prop, $value)->count();
+
+            if ($exist > 0) $response = ObjectResponse::CorrectResponse();
 
         } catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
