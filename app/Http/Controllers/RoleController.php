@@ -17,20 +17,17 @@ class RoleController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try {
-            // $lista = DB::select('SELECT * FROM roles where role_active = 1');
-            $list = Role::where('role_active', true) #where('role_active','=',1)
-            ->select('roles.role_id','roles.role_name')
-            ->orderBy('roles.role_name', 'ASC')
-            ->get();
-
+            $list = Role::where('role_active', true)
+            ->select('roles.role_id','roles.role_name', 'roles.role_active')
+            ->orderBy('roles.role_name', 'asc')->get();
             $response = ObjectResponse::CorrectResponse();
-            data_set($response,'message','peticion satisfactoria | lista roles.');
-            data_set($response,'data',$list);
-
-        } catch (\Exception $ex) {
+            data_set($response, 'message', 'Peticion satisfactoria. Lista de roles:');
+            data_set($response, 'data', $list);
+        }
+        catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
         }
-        return response()->json($response,$response["status_code"]);
+        return response()->json($response, $response["status_code"]);
     }
 
     /**
@@ -55,16 +52,16 @@ class RoleController extends Controller
         try {
             $new_role = Role::create([
                 'role_name' => $request->role_name,
+                'role_active' => $request->role_active,
             ]);
-            
             $response = ObjectResponse::CorrectResponse();
-            data_set($response,'message','peticion satisfactoria | rol registrado.');
-            data_set($response,'alert_text','Rol registrado');
-
-        } catch (\Exception $ex) {
+            data_set($response,'message','peticion satisfactoria | rol registrada.');
+            data_set($response,'alert_text','rol registrada');
+        }
+        catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
         }
-        return response()->json($response,$response["status_code"]);
+        return response()->json($response, $response["status_code"]);
     }
 
     /**
@@ -75,19 +72,19 @@ class RoleController extends Controller
      * @param   int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, int $id)
+    public function show(Role $role, int $id)
     {
         $response = ObjectResponse::DefaultResponse();
-        try {
+        try{
             $role = Role::where('role_id', $id)
-            ->select('roles.role_id','roles.role_name')
+            ->select('roles.role_id','roles.role_name','roles.role_active')
             ->get();
-
+            
             $response = ObjectResponse::CorrectResponse();
             data_set($response,'message','peticion satisfactoria | rol encontrado.');
             data_set($response,'data',$role);
-
-        } catch (\Exception $ex) {
+        }
+        catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response,$response["status_code"]);

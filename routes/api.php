@@ -2,12 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubjetController;
 use App\Http\Controllers\DifficultController;
-
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\TypesQuestionController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,4 +61,49 @@ Route::middleware('auth:sanctum')->controller(DifficultController::class)->group
     Route::post('/difficults','store');
     Route::put('/difficults','update');
     Route::delete('/difficults/{id}','destroy');
+    Route::get('/subjet','index');
+    Route::get('/subjet/{id}','show');
+    Route::post('/subjet','store');
+    Route::put('/subjet','update');
+    Route::delete('/subjet/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(DifficultController::class)->group(function () {
+    Route::get('/difficult','index');
+    Route::get('/difficult/{id}','show');
+    Route::post('/difficult','store');
+    Route::put('/difficult','update');
+    Route::delete('/difficult/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(AnswerController::class)->group(function () {
+    Route::get('/answers','index');
+    Route::get('/answers/{id}','show');
+    Route::post('/answers','store');
+    Route::put('/answers','update');
+    Route::delete('/answers/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(GameController::class)->group(function () {
+    Route::get('/games','index');
+    Route::get('/games/{id}','show');
+    Route::post('/games','store');
+    Route::put('/games','update');
+    Route::delete('/games/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(ItemController::class)->group(function () {
+    Route::get('/items','index');
+    Route::get('/items/{id}','show');
+    Route::post('/items','store');
+    Route::put('/items','update');
+    Route::delete('/items/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->group(function () {
+    Route::get('/types_q','index');
+    Route::get('/types_q/{id}','show');
+    Route::post('/types_q','store');
+    Route::put('/types_q','update');
+    Route::delete('/types_q/{id}','destroy');
 });
