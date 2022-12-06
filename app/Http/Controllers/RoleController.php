@@ -17,20 +17,17 @@ class RoleController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try {
-            // $lista = DB::select('SELECT * FROM roles where role_active = 1');
-            $list = Role::where('role_active', true) #where('role_active','=',1)
-            ->select('roles.role_id','roles.role_name')
-            ->orderBy('roles.role_name', 'ASC')
-            ->get();
-
+            $list = Role::where('role_active', true)
+            ->select('roles.role_name', 'roles.role_active')
+            ->orderBy('roles.role_name', 'asc')->get();
             $response = ObjectResponse::CorrectResponse();
-            data_set($response,'message','peticion satisfactoria | lista roles.');
-            data_set($response,'data',$list);
-
-        } catch (\Exception $ex) {
+            data_set($response, 'message', 'Peticion satisfactoria. Lista de roles:');
+            data_set($response, 'data', $list);
+        }
+        catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
         }
-        return response()->json($response,$response["status_code"]);
+        return response()->json($response, $response["status_code"]);
     }
 
     /**
