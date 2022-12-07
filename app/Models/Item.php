@@ -40,7 +40,7 @@ class Item extends Model
      */
     public function round()
     {   //primero se declara FK y despues la PK del modelo asociado
-        return $this->belongsTo(Round::class,'item_round_id','round_id');
+        return $this->belongsTo(Round::class,'round_id','item_round_id');
     }
 
     /**
@@ -48,7 +48,7 @@ class Item extends Model
      */
     public function type_question()
     {   //primero se declara FK y despues la PK del modelo asociado
-        return $this->belongsTo(Type_question::class,'item_tq_id','tq_id');
+        return $this->belongsTo(Type_question::class,'tq_id','item_tq_id');
     }
 
     /**
@@ -56,6 +56,6 @@ class Item extends Model
      */
     public function answer()
     {   //primero se declara FK y despues la PK del modelo asociado
-        return $this->hasMany(Answer::class,'item_answer_id','answer_id');
+        return $this->hasMany(Answer::class,'answer_item_id','item_id');
     }
 }

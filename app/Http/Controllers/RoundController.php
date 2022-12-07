@@ -19,8 +19,9 @@ class RoundController extends Controller
         try { 
             $list = Round::whereNotNull('round_id')
             ->join('subjets', 'rounds.round_subjet_id', '=', 'subjets.subjet_id')
-            ->join('difficults', 'rounds.round_difficult_id', '=', 'difficult_id')
-            ->select('round_id','subjets.subjet_name', 'difficult_name', 'rounds.round_quantity_items',
+            ->join('difficults', 'rounds.round_difficult_id', '=', 'difficults.difficult_id')
+            ->select('rounds.round_id','subjets.subjet_name', 'difficults.difficult_name', 
+            'rounds.round_quantity_items', 'rounds.round_name',
             'rounds.round_quantity_items', 'rounds.round_correct_min')
             ->orderBy('rounds.round_id', 'asc')->get();
             $response = ObjectResponse::CorrectResponse();

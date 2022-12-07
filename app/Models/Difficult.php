@@ -38,4 +38,8 @@ class Difficult extends Model
     {   //primero se declara FK y despues la PK del modelo asociado
         return $this->belongsTo(Game::class,'game_difficult_id','difficult_id');
     }
+    public function round()
+    {
+        return $this->hasMany(Round::class, 'round_difficult_id', 'difficult_id');
+    }
 }

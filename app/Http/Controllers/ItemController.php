@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Game;
 use App\Models\ObjectResponse;
 use Illuminate\Http\Request;
 
@@ -17,12 +18,16 @@ class ItemController extends Controller
     {
         $response = ObjectResponse::DefaultResponse();
         try { 
+        
             $list = Item::whereNotNull('item_id')
-            ->join('games', 'items.item_round_id', '=', 'games.game_id')
-            ->join('types_question', 'items.item_tq_id', '=', 'types_question.tq_id')
+            ->from('items')
+            ->join('types_question', 'item_tq_id', '=', 'tq_id')
+            ->join('rounds', 'round_id', '=', 'item_round_id')
+            ->join('games','games.game_round_id','=', 'round_id')
             ->select('types_question.tq_id','games.game_title', 'types_question.tq_name', 'items.item_question',
             'items.item_time', 'items.item_used')
             ->orderBy('items.item_question', 'asc')->get();
+
             $response = ObjectResponse::CorrectResponse();
             data_set($response, 'message', 'Peticion satisfactoria. Lista de items:');
             data_set($response, 'data', $list);
@@ -81,11 +86,13 @@ class ItemController extends Controller
         $response = ObjectResponse::DefaultResponse();
         try{
             $item = Item::where('item_id', $id)
-            ->join('games', 'items.item_round_id', '=', 'games.game_id')
-            ->join('types_question', 'items.item_tq_id', '=', 'types_question.tq_id')
+            ->from('items')
+            ->join('types_question', 'item_tq_id', '=', 'tq_id')
+            ->join('rounds', 'round_id', '=', 'item_round_id')
+            ->join('games','games.game_round_id','=', 'round_id')
             ->select('types_question.tq_id','games.game_title', 'types_question.tq_name', 'items.item_question',
             'items.item_time', 'items.item_used')
-            ->get();
+            ->orderBy('items.item_question', 'asc')->get();
             
             $response = ObjectResponse::CorrectResponse();
             data_set($response,'message','peticion satisfactoria | item encontrado.');

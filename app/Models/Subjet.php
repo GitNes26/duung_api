@@ -37,4 +37,8 @@ class Subjet extends Model
     {   //primero se declara FK y despues la PK del modelo asociado
         return $this->belongsTo(Game::class,'game_subjet_id','subjet_id');
     }
+
+    public function subjets(){
+        return $this -> hasMany(Subjet::class,'round_subjet_id', 'subjet_id');
+    }
 }

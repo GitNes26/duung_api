@@ -10,6 +10,7 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\TypesQuestionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoundController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,4 +94,12 @@ Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->g
     Route::post('/types_q','store');
     Route::put('/types_q','update');
     Route::delete('/types_q/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(RoundController::class)->group(function () {
+    Route::get('/rounds','index');
+    Route::get('/rounds/{id}','show');
+    Route::post('/rounds','store');
+    Route::put('/rounds','update');
+    Route::delete('/rounds/{id}','destroy');
 });

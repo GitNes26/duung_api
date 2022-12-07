@@ -18,16 +18,18 @@ class GameController extends Controller
         $response = ObjectResponse::DefaultResponse();
         try {
             $list = Game::whereNotNull('games.game_id')
+            ->from('games')
             ->join('users', 'games.game_user_id', '=', 'users.id')//USERS
             ->join('rounds', 'games.game_round_id', '=', 'rounds.round_id')//ROUNDS
-            ->join('subjets', 'games.game_round_id', '=', 'subjets.subjet_id')//SUBJETS
-            ->join('difficults', 'games.game_round_id', '=', 'difficults.difficult_id')//DIFFICULTS
-            ->select('game_id','game_title','game_score','game_rate','game_quantity_items_correct','game_complete',
-            'id','username','score',
-            'round_id','round_name','round_quantity_items','round_correct_min',
-            'difficult_id','difficult_name','difficult_score',
-            'subjet_id','subjet_name')
-            ->orderBy('game_id', 'desc')->get();
+            ->join('subjets', 'rounds.round_subjet_id', '=', 'subjets.subjet_id')//SUBJETS
+            ->join('difficults', 'rounds.round_difficult_id', '=', 'difficults.difficult_id')//DIFFICULTS
+            ->select('games.game_id','games.game_title','games.game_score','games.game_rate',
+            'games.game_quantity_items_correct','games.game_complete',
+            'users.id','users.username','users.score',
+            'rounds.round_id','rounds.round_name','rounds.round_quantity_items',
+            'rounds.round_correct_min','difficults.difficult_id','difficults.difficult_name','difficults.difficult_score',
+            'subjets.subjet_id','subjets.subjet_name')
+            ->orderBy('games.game_id', 'desc')->get();
             $response = ObjectResponse::CorrectResponse();
             data_set($response, 'message', 'Peticion satisfactoria. Lista de partidas');
             data_set($response, 'data', $list);
@@ -89,10 +91,11 @@ class GameController extends Controller
         $response = ObjectResponse::DefaultResponse();
         try{
             $game = Game::where('game_id', $id)
+            ->from('games')
             ->join('users', 'games.game_user_id', '=', 'users.id')//USERS
             ->join('rounds', 'games.game_round_id', '=', 'rounds.round_id')//ROUNDS
-            ->join('subjets', 'games.game_round_id', '=', 'subjets.subjet_id')//SUBJETS
-            ->join('difficults', 'games.game_round_id', '=', 'difficults.difficult_id')//DIFFICULTS
+            ->join('subjets', 'rounds.round_subjet_id', '=', 'subjets.subjet_id')//SUBJETS
+            ->join('difficults', 'rounds.round_difficult_id', '=', 'difficults.difficult_id')//DIFFICULTS
             ->select('game_id','game_title','game_score','game_rate','game_quantity_items_correct','game_complete',
             'id','username','score',
             'round_id','round_name','round_quantity_items','round_correct_min',

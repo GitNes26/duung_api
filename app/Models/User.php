@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class,'role_id','role_id');
     }
 
+    public function games()
+    {
+        return $this->hasMany(Game::class, 'game_user_id', 'id');
+    }
+
     /**
      * Valores defualt para los campos especificados.
      * @var array

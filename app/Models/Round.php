@@ -40,7 +40,7 @@ class Round extends Model
      */
     public function subjet()
     {   //primero se declara FK y despues la PK del modelo asociado
-        return $this->hasMany(Subjet::class,'round_subjet_id','subjet_id');
+        return $this->belongsTo(Subjet::class,'subjet_id','round_subjet_id');
     }
 
     /**
@@ -48,14 +48,19 @@ class Round extends Model
      */
     public function difficult()
     {   //primero se declara FK y despues la PK del modelo asociado
-        return $this->hasMany(Difficult::class,'round_difficult_id','difficult_id');
+        return $this->belongsTo(Difficult::class,'difficult_id','round_difficult_id');
     }
 
     // /**
     //  * Obtener los items asociados con la ronda.
     //  */
-    // public function item()
-    // {   //primero se declara FK y despues la PK del modelo asociado
-    //     return $this->BelongsTo(Item::class,'round_answer_id','answer_id');
-    // }
+    public function item()
+    {   //primero se declara FK y despues la PK del modelo asociado
+        return $this->hasMany(Item::class,'item_round_id','round_id');
+    }
+
+    public function games()
+    {
+        return $this->hasMany(Game::class,'game_round_id','round_id');
+    }
 }

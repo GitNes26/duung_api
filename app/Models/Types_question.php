@@ -29,4 +29,9 @@ class Types_question extends Model
      * @var string
      */
     protected $primaryKey = 'tq_id';
+
+    public function types_question()
+    {
+        return $this->hasMany(Types_question::class, 'item_tq_id', 'tq_id');
+    }
 }
