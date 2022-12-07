@@ -61,19 +61,6 @@ Route::middleware('auth:sanctum')->controller(DifficultController::class)->group
     Route::post('/difficults','store');
     Route::put('/difficults','update');
     Route::delete('/difficults/{id}','destroy');
-    Route::get('/subjet','index');
-    Route::get('/subjet/{id}','show');
-    Route::post('/subjet','store');
-    Route::put('/subjet','update');
-    Route::delete('/subjet/{id}','destroy');
-});
-
-Route::middleware('auth:sanctum')->controller(DifficultController::class)->group(function () {
-    Route::get('/difficult','index');
-    Route::get('/difficult/{id}','show');
-    Route::post('/difficult','store');
-    Route::put('/difficult','update');
-    Route::delete('/difficult/{id}','destroy');
 });
 
 Route::middleware('auth:sanctum')->controller(AnswerController::class)->group(function () {
