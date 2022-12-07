@@ -20,10 +20,14 @@ class GameController extends Controller
             $list = Game::whereNotNull('games.game_id')
             ->join('users', 'games.game_user_id', '=', 'users.id')//USERS
             ->join('rounds', 'games.game_round_id', '=', 'rounds.round_id')//ROUNDS
-            ->select('games.game_id','users.name', 'subjets.subjet_name',
-            'rounds.round_name', 'games.game_title', 'games.game_description', 'games.game_score',
-            'games.game_score', 'games.game_rate', 'games.game_quantity_items_correct', 'games.game_time_item', 'games.game_complete')
-            ->orderBy('games.game_title', 'asc')->get();
+            ->join('subjets', 'games.game_round_id', '=', 'subjets.subjet_id')//SUBJETS
+            ->join('difficults', 'games.game_round_id', '=', 'difficults.difficult_id')//DIFFICULTS
+            ->select('game_id','game_title','game_score','game_rate','game_quantity_items_correct','game_complete',
+            'id','username','score',
+            'round_id','round_name','round_quantity_items','round_correct_min',
+            'difficult_id','difficult_name','difficult_score',
+            'subjet_id','subjet_name')
+            ->orderBy('game_id', 'desc')->get();
             $response = ObjectResponse::CorrectResponse();
             data_set($response, 'message', 'Peticion satisfactoria. Lista de partidas');
             data_set($response, 'data', $list);
@@ -56,15 +60,13 @@ class GameController extends Controller
         try {
             $new_game = Game::create([
                 'game_user_id' => $request->game_user_id,
-                // 'game_subjet_id' => $request->game_subjet_id,
                 'game_round_id' => $request->game_round_id,
                 'game_title' => $request->game_title,
                 'game_description' => $request->game_description,
-                'game_score' => $request->game_score,
-                'game_rate' => $request->game_rate,
-                'game_quantity_items_correct' => $request->game_quantity_items_correct,
-                'game_time_item' => $request->game_time_item,
-                'game_complete' => $request->game_complete,
+                // 'game_score' => $request->game_score,
+                // 'game_rate' => $request->game_rate,
+                // 'game_quantity_items_correct' => $request->game_quantity_items_correct,
+                // 'game_complete' => $request->game_complete,
             ]);
             $response = ObjectResponse::CorrectResponse();
             data_set($response,'message','peticion satisfactoria | partida registrada.');
@@ -89,10 +91,14 @@ class GameController extends Controller
             $game = Game::where('game_id', $id)
             ->join('users', 'games.game_user_id', '=', 'users.id')//USERS
             ->join('rounds', 'games.game_round_id', '=', 'rounds.round_id')//ROUNDS
-            ->join('subjets', 'rounds.round_subjet_id', '=', 'subjets.subjet_id')//SUBJETS
-            ->select('games.game_id','users.name', 'subjets.subjet_name',
-            'rounds.round_name', 'games.game_title', 'games.game_description', 'games.game_score',
-            'games.game_score', 'games.game_rate', 'games.game_quantity_items_correct', 'games.game_time_item', 'games.game_complete')
+            ->join('subjets', 'games.game_round_id', '=', 'subjets.subjet_id')//SUBJETS
+            ->join('difficults', 'games.game_round_id', '=', 'difficults.difficult_id')//DIFFICULTS
+            ->select('game_id','game_title','game_score','game_rate','game_quantity_items_correct','game_complete',
+            'id','username','score',
+            'round_id','round_name','round_quantity_items','round_correct_min',
+            'difficult_id','difficult_name','difficult_score',
+            'subjet_id','subjet_name')
+            ->orderBy('game_id', 'desc')
             ->get();
             
             $response = ObjectResponse::CorrectResponse();
@@ -130,14 +136,12 @@ class GameController extends Controller
             $game = Game::where('games.game_id', $request->game_id)
             ->update([
                 'game_user_id' => $request->game_user_id,
-                // // 'game_subjet_id' => $request->game_subjet_id,
                 'game_round_id' => $request->game_round_id,
                 'game_title' => $request->game_title,
                 'game_description' => $request->game_description,
                 'game_score' => $request->game_score,
                 'game_rate' => $request->game_rate,
                 'game_quantity_items_correct' => $request->game_quantity_items_correct,
-                'game_time_item' => $request->game_time_item,
                 'game_complete' => $request->game_complete,
             ]);
 
@@ -150,6 +154,40 @@ class GameController extends Controller
         }
         return response()->json($response,$response["status_code"]);
     }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function gameComplete(Request $request, Game $game)
+    {
+        $response = ObjectResponse::DefaultResponse();
+        try{
+            $game = Game::where('games.game_id', $request->game_id)
+            ->update([
+                'game_title' => $request->game_title,
+                'game_description' => $request->game_description,
+                'game_score' => $request->game_score,
+                'game_rate' => $request->game_rate,
+                'game_quantity_items_correct' => $request->game_quantity_items_correct,
+                'game_complete' => $request->game_complete,
+            ]);
+
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | partida finalizada.');
+            data_set($response,'alert_text','Partida actualizada');
+        }
+        catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+    }
+    
+    
 
     /**
      * Remove the specified resource from storage.
