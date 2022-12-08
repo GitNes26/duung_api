@@ -246,7 +246,7 @@ class GameController extends Controller
     }
 
 
-    public function getItemsWithAnswersByRound($round_id) {
+    public function getItemsByRound($round_id) {
         $response = ObjectResponse::DefaultResponse();
         try { 
             $items = Item::join('types_question', 'item_tq_id', '=', 'tq_id')
