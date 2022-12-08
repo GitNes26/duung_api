@@ -106,6 +106,7 @@ Route::middleware('auth:sanctum')->controller(GameController::class)->group(func
     Route::delete('/games/{id}','destroy');
 
     Route::get('/games/round/{id}','getItemsWithAnswersByRound');
+    Route::get('/games/scores/{id}','getScoresGames');
 });
 
 Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->group(function () {
@@ -122,4 +123,5 @@ Route::middleware('auth:sanctum')->controller(TipController::class)->group(funct
     Route::post('/tips','store');
     Route::put('/tips','update');
     Route::delete('/tips/{id}','destroy');
+    Route::get('/tipslist','listTips');
 });

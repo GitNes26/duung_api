@@ -8,6 +8,35 @@ use Illuminate\Http\Request;
 
 class TipController extends Controller
 {
+       /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function listTips(Request $request)
+    {
+        $response = ObjectResponse::DefaultResponse();
+        try {
+            $tips = Tip::count();
+            $rand1 = rand(1, $tips);
+            $rand2 = rand(1, $tips);
+            if($rand2 == $rand1){
+                $rand2 = rand(1, $tips);
+            }
+            $list = Tip::Where('id',$rand1)
+            ->orWhere('id', $rand2 )->get();
+            // ->orderBy('id', 'asc')->get();
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response, 'message', 'Peticion satisfactoria. Lista de tips:');
+            data_set($response, 'data', $list);
+        }
+        catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response["status_code"]);
+    }
+
     /**
      * Display a listing of the resource.
      *

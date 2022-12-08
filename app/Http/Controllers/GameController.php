@@ -123,6 +123,27 @@ class GameController extends Controller
         }
         return response()->json($response,$response["status_code"]);
     }
+    public function getScoresGames(Game $game, int $id)
+    {
+        $response = ObjectResponse::DefaultResponse();
+        try{
+            $scores = Game::where('game_user_id', $id)
+            ->from('games')
+            ->join('rounds', 'games.game_round_id', '=', 'rounds.round_id')//ROUNDS
+            ->selectRaw('round_id,round_name,max(game_score) as maxscore,max(game_rate) as rate,(select c.game_score from db_duung.games c  where c.game_round_id=games.game_round_id order by c.game_id desc limit 1) as lastscore ')
+            ->groupBy('game_round_id','round_id', 'round_name')
+            // ->toSql();
+            ->get();
+            // echo $scores;
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response,'message','peticion satisfactoria | partida encontrada.');
+            data_set($response,'data',$scores);
+        }
+        catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response,$response["status_code"]);
+    }
 
     /**
      * Show the form for editing the specified resource.
