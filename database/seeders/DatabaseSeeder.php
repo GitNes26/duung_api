@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             TypesQuestionSeeder::class,
             ItemSeeder::class,
             AnswerSeeder::class,
+            TipSeeder::class,
             // GameSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();

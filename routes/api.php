@@ -11,6 +11,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\TypesQuestionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoundController;
+use App\Http\Controllers\TipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,4 +106,20 @@ Route::middleware('auth:sanctum')->controller(GameController::class)->group(func
     Route::delete('/games/{id}','destroy');
 
     Route::get('/games/round/{id}','getItemsWithAnswersByRound');
+});
+
+Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->group(function () {
+    Route::get('/types_q','index');
+    Route::get('/types_q/{id}','show');
+    Route::post('/types_q','store');
+    Route::put('/types_q','update');
+    Route::delete('/types_q/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(TipController::class)->group(function () {
+    Route::get('/tips','index');
+    Route::get('/tips/{id}','show');
+    Route::post('/tips','store');
+    Route::put('/tips','update');
+    Route::delete('/tips/{id}','destroy');
 });
