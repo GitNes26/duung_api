@@ -64,7 +64,7 @@ class GameController extends Controller
         $response = ObjectResponse::DefaultResponse();
 
         try {
-            $round = Round::select('round_id','round_name')->where('round_subjet_id',$request->subjet_id)->where('round_difficult_id',$request->difficult_id)->first();
+            $round = Round::select('round_id','round_name','round_correct_min','round_quantity_items')->where('round_subjet_id',$request->subjet_id)->where('round_difficult_id',$request->difficult_id)->first();
             // echo "ronda_sssid: $round";
             // return;
             $new_game = Game::create([
@@ -78,11 +78,14 @@ class GameController extends Controller
                 // 'game_complete' => $request->game_complete,
             ]);
             $new_game->save();
+            
             $response = ObjectResponse::CorrectResponse();
             data_set($response,'message','peticion satisfactoria | partida registrada.');
             data_set($response,'alert_text','partida registrada');
             data_set($response["data"],'game_id',$new_game->game_id);
             data_set($response["data"],'round_id',$new_game->game_round_id);
+            data_set($response["data"],'correct_min',$round["round_correct_min"]);
+            data_set($response["data"],'round_quantity_items',$round["round_quantity_items"]);
         }
         catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());
@@ -203,12 +206,12 @@ class GameController extends Controller
         try{
             $game = Game::where('games.game_id', $request->game_id)
             ->update([
-                'game_title' => $request->game_title,
-                'game_description' => $request->game_description,
+                // 'game_title' => $request->game_title,
+                // 'game_description' => $request->game_description,
                 'game_score' => $request->game_score,
                 'game_rate' => $request->game_rate,
                 'game_quantity_items_correct' => $request->game_quantity_items_correct,
-                'game_complete' => $request->game_complete,
+                'game_complete' => true,
             ]);
 
             $response = ObjectResponse::CorrectResponse();

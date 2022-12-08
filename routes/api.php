@@ -105,8 +105,9 @@ Route::middleware('auth:sanctum')->controller(GameController::class)->group(func
     Route::put('/games','update');
     Route::delete('/games/{id}','destroy');
 
-    Route::get('/games/round/{id}','getItemsWithAnswersByRound');
+    Route::get('/games/round/{id}','getItemsByRound');
     Route::get('/games/scores/{id}','getScoresGames');
+    Route::put('/games/complete','gameComplete');
 });
 
 Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->group(function () {
