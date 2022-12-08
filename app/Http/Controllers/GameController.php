@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Models\Item;
 use App\Models\Answer;
+use App\Models\Round;
 use App\Models\ObjectResponse;
 use Illuminate\Http\Request;
 
@@ -61,20 +62,27 @@ class GameController extends Controller
     public function store(Request $request)
     {
         $response = ObjectResponse::DefaultResponse();
+
         try {
+            $round = Round::select('round_id','round_name')->where('round_subjet_id',$request->subjet_id)->where('round_difficult_id',$request->difficult_id)->first();
+            // echo "ronda_sssid: $round";
+            // return;
             $new_game = Game::create([
                 'game_user_id' => $request->game_user_id,
-                'game_round_id' => $request->game_round_id,
-                'game_title' => $request->game_title,
+                'game_round_id' => $round["round_id"],
+                'game_title' => $round["round_name"],
                 'game_description' => $request->game_description,
                 // 'game_score' => $request->game_score,
                 // 'game_rate' => $request->game_rate,
                 // 'game_quantity_items_correct' => $request->game_quantity_items_correct,
                 // 'game_complete' => $request->game_complete,
             ]);
+            $new_game->save();
             $response = ObjectResponse::CorrectResponse();
             data_set($response,'message','peticion satisfactoria | partida registrada.');
             data_set($response,'alert_text','partida registrada');
+            data_set($response["data"],'game_id',$new_game->game_id);
+            data_set($response["data"],'round_id',$new_game->game_round_id);
         }
         catch (\Exception $ex) {
             $response = ObjectResponse::CatchResponse($ex->getMessage());

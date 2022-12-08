@@ -42,7 +42,7 @@ class RoundSeeder extends Seeder
         
         DB::table('rounds')->insert([ 
             'round_name' => "MATEMATICAS - Bebe chillon",
-            'round_subjet_id' => 1,
+            'round_subjet_id' => 2,
             'round_difficult_id' => 1,
             'round_quantity_items' => 3,
             'round_correct_min' => 1,
@@ -50,7 +50,7 @@ class RoundSeeder extends Seeder
 
         DB::table('rounds')->insert([ 
             'round_name' => "MATEMATICAS - Medias tintas",
-            'round_subjet_id' => 1,
+            'round_subjet_id' => 2,
             'round_difficult_id' => 2,
             'round_quantity_items' => 5,
             'round_correct_min' => 2,
@@ -58,7 +58,7 @@ class RoundSeeder extends Seeder
 
         DB::table('rounds')->insert([ 
             'round_name' => "MATEMATICAS - Super Fortachon",
-            'round_subjet_id' => 1,
+            'round_subjet_id' => 2,
             'round_difficult_id' => 3,
             'round_quantity_items' => 10,
             'round_correct_min' => 5,
