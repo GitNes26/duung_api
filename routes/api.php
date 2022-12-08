@@ -72,13 +72,14 @@ Route::middleware('auth:sanctum')->controller(AnswerController::class)->group(fu
     Route::delete('/answers/{id}','destroy');
 });
 
-Route::middleware('auth:sanctum')->controller(GameController::class)->group(function () {
-    Route::get('/games','index');
-    Route::get('/games/{id}','show');
-    Route::post('/games','store');
-    Route::put('/games','update');
-    Route::delete('/games/{id}','destroy');
+Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->group(function () {
+    Route::get('/types_q','index');
+    Route::get('/types_q/{id}','show');
+    Route::post('/types_q','store');
+    Route::put('/types_q','update');
+    Route::delete('/types_q/{id}','destroy');
 });
+
 
 Route::middleware('auth:sanctum')->controller(ItemController::class)->group(function () {
     Route::get('/items','index');
@@ -88,18 +89,20 @@ Route::middleware('auth:sanctum')->controller(ItemController::class)->group(func
     Route::delete('/items/{id}','destroy');
 });
 
-Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->group(function () {
-    Route::get('/types_q','index');
-    Route::get('/types_q/{id}','show');
-    Route::post('/types_q','store');
-    Route::put('/types_q','update');
-    Route::delete('/types_q/{id}','destroy');
-});
-
 Route::middleware('auth:sanctum')->controller(RoundController::class)->group(function () {
     Route::get('/rounds','index');
     Route::get('/rounds/{id}','show');
     Route::post('/rounds','store');
     Route::put('/rounds','update');
     Route::delete('/rounds/{id}','destroy');
+});
+
+Route::middleware('auth:sanctum')->controller(GameController::class)->group(function () {
+    Route::get('/games','index');
+    Route::get('/games/{id}','show');
+    Route::post('/games','store');
+    Route::put('/games','update');
+    Route::delete('/games/{id}','destroy');
+
+    Route::get('/games/round/{id}','getItemsWithAnswersByRound');
 });

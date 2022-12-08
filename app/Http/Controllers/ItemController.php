@@ -20,11 +20,9 @@ class ItemController extends Controller
         try { 
         
             $list = Item::whereNotNull('item_id')
-            ->from('items')
             ->join('types_question', 'item_tq_id', '=', 'tq_id')
             ->join('rounds', 'round_id', '=', 'item_round_id')
-            ->join('games','games.game_round_id','=', 'round_id')
-            ->select('types_question.tq_id','games.game_title', 'types_question.tq_name', 'items.item_question',
+            ->select('types_question.tq_id', 'types_question.tq_name', 'items.item_question',
             'items.item_time', 'items.item_used')
             ->orderBy('items.item_question', 'asc')->get();
 
@@ -89,8 +87,7 @@ class ItemController extends Controller
             ->from('items')
             ->join('types_question', 'item_tq_id', '=', 'tq_id')
             ->join('rounds', 'round_id', '=', 'item_round_id')
-            ->join('games','games.game_round_id','=', 'round_id')
-            ->select('types_question.tq_id','games.game_title', 'types_question.tq_name', 'items.item_question',
+            ->select('types_question.tq_id', 'types_question.tq_name', 'items.item_question',
             'items.item_time', 'items.item_used')
             ->orderBy('items.item_question', 'asc')->get();
             

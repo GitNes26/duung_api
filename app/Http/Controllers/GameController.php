@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Item;
+use App\Models\Answer;
 use App\Models\ObjectResponse;
 use Illuminate\Http\Request;
 
@@ -212,5 +214,32 @@ class GameController extends Controller
             $response = ObjectResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response,$response["status_code"]);
+    }
+
+
+    public function getItemsWithAnswersByRound($round_id) {
+        $response = ObjectResponse::DefaultResponse();
+        try { 
+            $items = Item::join('types_question', 'item_tq_id', '=', 'tq_id')
+            ->join('rounds', 'round_id', '=', 'item_round_id')
+            ->select('item_id','types_question.tq_id', 'types_question.tq_name', 'items.item_question',
+            'items.item_time', 'items.item_used')
+            ->where('round_id', $round_id)
+            ->orderBy('items.item_question', 'asc')->get();
+
+            foreach ($items as $item) {
+                $answers = Answer::where('answer_item_id',$item->item_id)->select('answer_id','answer_text','answer_correct')->get();
+                data_set($item, 'answers', $answers);
+            }
+
+            $response = ObjectResponse::CorrectResponse();
+            data_set($response, 'message', 'Peticion satisfactoria. Items por ronda:');
+            data_set($response, 'data', $items);
+            
+        }
+        catch (\Exception $ex) {
+            $response = ObjectResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response["status_code"]);
     }
 }
