@@ -94,3 +94,11 @@ Route::middleware('auth:sanctum')->controller(TypesQuestionController::class)->g
     Route::put('/types_q','update');
     Route::delete('/types_q/{id}','destroy');
 });
+
+Route::middleware('auth:sanctum')->controller(TipController::class)->group(function () {
+    Route::get('/tips','index');
+    Route::get('/tips/{id}','show');
+    Route::post('/tips','store');
+    Route::put('/tips','update');
+    Route::delete('/tips/{id}','destroy');
+});
