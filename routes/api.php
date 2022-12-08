@@ -122,4 +122,5 @@ Route::middleware('auth:sanctum')->controller(TipController::class)->group(funct
     Route::post('/tips','store');
     Route::put('/tips','update');
     Route::delete('/tips/{id}','destroy');
+    Route::get('/tipslist','listTips');
 });
