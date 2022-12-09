@@ -82,57 +82,49 @@ class ItemSeeder extends Seeder
         DB::table('items')->insert([ 
             'item_round_id' => 5,
             'item_tq_id' => 1,
-            'item_question' => 'Encuentra el valor de x en la siguiente ecuación:
-            2(1+2x)=10',
+            'item_question' => 'Encuentra el valor de x en la siguiente ecuación:  2(1+2x)=10',
             'item_time' => 10,
         ]);
         DB::table('items')->insert([ 
             'item_round_id' => 5,
             'item_tq_id' => 1,
-            'item_question' => 'Si 2π radianes equivalen a 360°, 
-            ¿cuánto equivale un ángulo de 7π/8 radianes?',
+            'item_question' => 'Si 2π radianes equivalen a 360°, ¿cuánto equivale un ángulo de 7π/8 radianes?',
             'item_time' => 10,
         ]);
         DB::table('items')->insert([ 
             'item_round_id' => 5,
             'item_tq_id' => 1,
-            'item_question' => 'Dada una colección de valores, 
-            el número que se repite más veces se conoce como:',
+            'item_question' => 'Dada una colección de valores, el número que se repite más veces se conoce como:',
             'item_time' => 10,
         ]);
         DB::table('items')->insert([ 
             'item_round_id' => 5,
             'item_tq_id' => 1,
-            'item_question' => 'Encuentra el valor de las incógnitas en el siguiente sistema de ecuaciones:
-            [2x+5y=17]
+            'item_question' => 'Encuentra el valor de las incógnitas en el siguiente sistema de ecuaciones: [2x+5y=17]
             [3x+4y=15]',
             'item_time' => 10,
         ]);
         DB::table('items')->insert([ 
             'item_round_id' => 5,
             'item_tq_id' => 1,
-            'item_question' => 'Identifica la representación matemática de la ley de los cosenos 
-            para un triángulo ABC:',
+            'item_question' => 'Identifica la representación matemática de la ley de los cosenos para un triángulo ABC:',
             'item_time' => 10,
         ]);
         DB::table('items')->insert([ 
             'item_round_id' => 5,
             'item_tq_id' => 1,
-            'item_question' => '¿Cuál es la factorización del siguiente trinomio?',
-            'item_time' => 10,
+            'item_question' => '¿Cuál es la factorización del siguiente trinomio?', 'item_time' => 10,
         ]);
 
         DB::table('items')->insert([ 
             'item_round_id' => 2,
             'item_tq_id' => 1,
-            'item_question' => 'Tipo de texto en el que existe una introducción, desarrollo de un tema y cierre',
-            'item_time' => 10,
+            'item_question' => 'Tipo de texto en el que existe una introducción, desarrollo de un tema y cierre', 'item_time' => 10,
         ]);
         DB::table('items')->insert([ 
             'item_round_id' => 2,
             'item_tq_id' => 1,
-            'item_question' => 'Estas palabras engloban todas las acciones que realizamos o suceden:',
-            'item_time' => 10,
+            'item_question' => 'Estas palabras engloban todas las acciones que realizamos o suceden:', 'item_time' => 10,
         ]);
         DB::table('items')->insert([ 
             'item_round_id' => 2,
