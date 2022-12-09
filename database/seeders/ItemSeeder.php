@@ -37,5 +37,7 @@ class ItemSeeder extends Seeder
             'item_question' => '¿Cuál de las siguientes palabras es grave?',
             'item_time' => 10,
         ]);
+
+        
     }
 }
